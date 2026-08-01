@@ -1,0 +1,6 @@
+1. Create Locals for tagging standardization and put tags from vars. Now create a new variable as tag name it department and merge it with locals block tags inside the ec2
+2. Create a bash script to install docker on ubuntu and refrence it in local block
+3. Create a data block and brin ubuntu 24.04
+4. Create an EC2 instance along with security group & provision/add ssh key and user_data script to ec2 configuration. Use foreach loop for Var (No use of AI until stuck use registry first)
+5. In security group add allow your ip for part 22 and for port 80 and 443 allow 0.0.0.0/0
+7. Create AWS High Availability VPC using following components [resource (for subnets & VPC), variables (CIDRs), output (IDs of vpc and subnets), loacls (Standardization of tags), data (to get availability zones), Provider, Provider Configurations, Dependency (Subnets Depends on VPC, RouteTable Depends on Subnets, Routes Depends on RouteTable)]. Make sure to enable DNS name and Auto assign public IP configuration in Resource configs. No need to provision NAT Gateway. Code must be clean and well commented we will continue same code. No need to go for advance configs like modules. You can use AI wut go component by component that mentioned above and understand working because i will ask questions out of it while evaluation.
