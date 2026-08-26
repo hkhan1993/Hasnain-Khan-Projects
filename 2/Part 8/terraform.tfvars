@@ -1,8 +1,9 @@
 mandatory_tags = {
-  "owner"       = "H-Khan"
-  "cost-center" = "SIA-12345"
-  "project"     = "Mandatory Tagging Initiative"
-  "environment" = "development"
-  "tier"        = "0"
+  "Application"     = "H-Khan"
+  "Cost-Center"     = "SIA-12345"
+  "Support-Group"   = "ISRM"
+  "Environment"     = "development"
+  "Tier"            = "4"
+  "Backup-Required" = "no"
 
 }

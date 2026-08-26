@@ -42,9 +42,9 @@ resource "azurerm_policy_set_definition" "mandatory_tagging_policy" {
 
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.audit_tagging.id
-    reference_id         = "RequireOwnerTag"
+    reference_id         = "RequireApplicationTag"
     parameter_values = jsonencode({
-      tagName = { value = "owner" }
+      tagName = { value = "Application" }
       effect  = { value = "Audit" }
     })
   }
@@ -53,7 +53,7 @@ resource "azurerm_policy_set_definition" "mandatory_tagging_policy" {
     policy_definition_id = azurerm_policy_definition.audit_tagging.id
     reference_id         = "RequireCostCenterTag"
     parameter_values = jsonencode({
-      tagName = { value = "cost-center" }
+      tagName = { value = "Cost-Center" }
       effect  = { value = "Audit" }
     })
   }
@@ -61,9 +61,9 @@ resource "azurerm_policy_set_definition" "mandatory_tagging_policy" {
 
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.audit_tagging.id
-    reference_id         = "RequireProjectTag"
+    reference_id         = "RequireSupportGroupTag"
     parameter_values = jsonencode({
-      tagName = { value = "project" }
+      tagName = { value = "Support-Group" }
       effect  = { value = "Audit" }
     })
   }
@@ -73,7 +73,7 @@ resource "azurerm_policy_set_definition" "mandatory_tagging_policy" {
     policy_definition_id = azurerm_policy_definition.audit_tagging.id
     reference_id         = "RequireEnvironmentTag"
     parameter_values = jsonencode({
-      tagName = { value = "environment" }
+      tagName = { value = "Environment" }
       effect  = { value = "Audit" }
     })
   }
@@ -83,7 +83,16 @@ resource "azurerm_policy_set_definition" "mandatory_tagging_policy" {
     policy_definition_id = azurerm_policy_definition.audit_tagging.id
     reference_id         = "RequireTierTag"
     parameter_values = jsonencode({
-      tagName = { value = "tier" }
+      tagName = { value = "Tier" }
+      effect  = { value = "Audit" }
+    })
+  }
+
+  policy_definition_reference {
+    policy_definition_id = azurerm_policy_definition.audit_tagging.id
+    reference_id         = "RequireBackupRequiredTag"
+    parameter_values = jsonencode({
+      tagName = { value = "Backup-Required" }
       effect  = { value = "Audit" }
     })
   }
@@ -105,30 +114,34 @@ resource "azurerm_subscription_policy_assignment" "enforce_mandatory_tagging_pol
   ]
 
   non_compliance_message {
-    content                        = "Resource is missing the required tag: 'owner'"
-    policy_definition_reference_id = "RequireOwnerTag"
+    content                        = "Resource is missing the required tag: 'Application'"
+    policy_definition_reference_id = "RequireApplicationTag"
   }
 
   non_compliance_message {
-    content                        = "Resource is missing the required tag: 'cost-center'"
+    content                        = "Resource is missing the required tag: 'Cost-Center'"
     policy_definition_reference_id = "RequireCostCenterTag"
   }
 
   non_compliance_message {
-    content                        = "Resource is missing the required tag: 'project'"
-    policy_definition_reference_id = "RequireProjectTag"
-  }
-
-  non_compliance_message {
-    content                        = "Resource is missing the required tag: 'environment'"
+    content                        = "Resource is missing the required tag: 'Environment' - development, staging, production, qa, training, demo, dr"
     policy_definition_reference_id = "RequireEnvironmentTag"
   }
 
   non_compliance_message {
-    content                        = "Resource is missing the required tag: 'tier'"
+    content                        = "Resource is missing the required tag: 'Support-Group'"
+    policy_definition_reference_id = "RequireSupportGroupTag"
+  }
+
+  non_compliance_message {
+    content                        = "Resource is missing the required tag: 'Tier' - 0-4 value"
     policy_definition_reference_id = "RequireTierTag"
   }
 
+  non_compliance_message {
+    content                        = "Resource is missing the required tag: 'Backup-Required'"
+    policy_definition_reference_id = "RequireBackupRequiredTag"
+  }
 
 }
 

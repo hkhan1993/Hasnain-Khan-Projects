@@ -3,11 +3,12 @@ variable "mandatory_tags" {
   description = "A map of mandatory tags to apply to all resources."
 
   default = {
-    owner       = "IT Department"
-    cost-center = "XXYY"
-    project     = "Terraform Training"
-    environment = "development"
-    tier        = "0"
+    Application     = "Blank-App"
+    Environment     = "development"
+    Cost-Center     = "XXYY"
+    Support-Group   = "Sec-Ops"
+    Tier            = "4"
+    Backup-Required = "No"
   }
 
   validation {
@@ -16,7 +17,7 @@ variable "mandatory_tags" {
   }
 
   validation {
-    condition     = alltrue([for required_key in ["owner", "project", "cost-center", "environment", "tier"] : contains(keys(var.mandatory_tags), required_key)])
+    condition     = alltrue([for required_key in ["Application", "Environment", "Cost-Center", "Support-Group", "Tier", "Backup-Required"] : contains(keys(var.mandatory_tags), required_key)])
     error_message = "Missing Mandatory Tag Value"
   }
 
@@ -26,13 +27,18 @@ variable "mandatory_tags" {
   }
 
   validation {
-    condition     = contains(["development", "staging", "production"], lookup(var.mandatory_tags, "environment", ""))
-    error_message = "The mandatory_tags variable must contain a valid environment tag - development, staging, production"
+    condition     = contains(["development", "staging", "production", "qa", "training", "demo", "dr"], lookup(var.mandatory_tags, "Environment", ""))
+    error_message = "The mandatory_tags variable must contain a valid environment tag - development, staging, production, qa, training, demo, dr"
   }
 
   validation {
-    condition     = contains(["0", "1", "2", "3", "4"], lookup(var.mandatory_tags, "tier", ""))
-    error_message = "The mandatory_tags variable must contain a valid tier tag."
+    condition     = contains(["0", "1", "2", "3", "4"], lookup(var.mandatory_tags, "Tier", ""))
+    error_message = "The mandatory_tag variable must contain a valid tier tag."
+  }
+
+  validation {
+    condition     = contains(["yes", "no"], lookup(var.mandatory_tags, "Backup-Required", ""))
+    error_message = "The mandatory_tags variable must contain a valid Backup-Required tag - yes or no"
   }
 
 }
