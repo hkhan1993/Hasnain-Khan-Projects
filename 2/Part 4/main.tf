@@ -14,8 +14,10 @@ resource "aws_subnet" "main_subnets" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = cidrsubnet(var.vpc_cidr, 8, each.value)
   availability_zone = each.key
+  map_public_ip_on_launch = tonumber(split(".", split("/", cidrsubnet(var.vpc_cidr, 8, each.value))[0])[2]) % 2 == 0 
 
   tags = {
     Name = "main-subnet-${each.key}"
+    PublicIP = tostring(split(".", split("/", cidrsubnet(var.vpc_cidr, 8, each.value))[0])[2]) % 2 == 0
   }
 }
