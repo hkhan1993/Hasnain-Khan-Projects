@@ -40,6 +40,19 @@ resource "azurerm_policy_set_definition" "mandatory_tagging_policy" {
   display_name = "Enforce Mandatory Tagging Policy"
   description  = "Requires owner, cost-center, project, environment, and tier"
 
+
+  dynamic "policy_definition_reference" {
+    for_each = var.mandatory_tags
+    content {
+      policy_definition_id = azurerm_policy_definition.audit_tagging.id
+      reference_id         = "Require${replace(policy_definition_reference.key, "-", "")}Tag"
+      parameter_values = jsonencode({
+        tagName = { value = policy_definition_reference.key }
+        effect  = { value = "Audit" }
+      })
+    }
+  }
+  /*
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.audit_tagging.id
     reference_id         = "RequireApplicationTag"
@@ -95,7 +108,7 @@ resource "azurerm_policy_set_definition" "mandatory_tagging_policy" {
       tagName = { value = "Backup-Required" }
       effect  = { value = "Audit" }
     })
-  }
+  } */
 
 
 
@@ -113,6 +126,14 @@ resource "azurerm_subscription_policy_assignment" "enforce_mandatory_tagging_pol
     "${data.azurerm_subscription.current.id}/resourceGroups/Default-Storage-EastUS"
   ]
 
+  dynamic "non_compliance_message" {
+    for_each = var.mandatory_tags
+    content {
+      content                        = "Resource is missing the required tag: '${non_compliance_message.key}'"
+      policy_definition_reference_id = "Require${replace(non_compliance_message.key, "-", "")}Tag"
+    }
+  }
+/*
   non_compliance_message {
     content                        = "Resource is missing the required tag: 'Application'"
     policy_definition_reference_id = "RequireApplicationTag"
@@ -142,7 +163,7 @@ resource "azurerm_subscription_policy_assignment" "enforce_mandatory_tagging_pol
     content                        = "Resource is missing the required tag: 'Backup-Required'"
     policy_definition_reference_id = "RequireBackupRequiredTag"
   }
-
+*/
 }
 
 resource "azurerm_resource_group" "rg" {

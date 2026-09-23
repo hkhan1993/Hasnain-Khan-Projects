@@ -11,6 +11,7 @@ variable "default_allocated_storage" {
   description = "The default allocated storage (in GB) for the read replicas databases."
 }
 
+
 variable "primary_subnet_ids" {
   type = list(string)
   description = "The subnet IDs for the primary database instance."
@@ -21,6 +22,10 @@ variable "replica_subnet_ids" {
   description = "A map of subnet IDs for different regions."
 }
    
+variable "db_password" {
+  type      = string
+  sensitive = true
+}
 
 variable "replicas" {
   type = map(object({

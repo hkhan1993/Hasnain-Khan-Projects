@@ -1,0 +1,13 @@
+0. Create a GitHub repo
+1. AWS Access Key creation and configuration locally
+2. Create an EC2 instance
+   a. Take General/AWS managed VPC ID from AWS
+   b. Create main.tf, variable.tf, provider.tf, output.tf, and terraform.tfvars. Put relevant configurations in files. Define Provider and provide configs both.
+   c. Use data structure type object do define properties of EC2 instance in terraform use test.tf file for reference
+3. Explore Terraform fmt command. Use it and tell me the purpose in up coming meeting.
+4. Use init, plan, apply, and destroy command as well.
+5. Write down the purpose of each file by doing R&D or AI in form of readme.md
+6. Push all the things in the GitHub repo by creating a folder in repo like repo/exercise-0/all-files-in-it. (Must for traceability and for future work on pipelines)
+
+Note: Please do not use AI directly otherwise it will leave you with less knowledge regarding terraform documentation. Don't go for advance concepts like data block or if you want to go for it then understand that concept properly because exercise will be evaluated first in next session.
+Documentation Reference: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
