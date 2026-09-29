@@ -1,0 +1,12 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "aws_instance.web" [label="aws_instance.web"];
+  "aws_security_group.web_sg" [label="aws_security_group.web_sg"];
+  "aws_subnet.public" [label="aws_subnet.public"];
+  "aws_vpc.main" [label="aws_vpc.main"];
+  "aws_instance.web" -> "aws_security_group.web_sg";
+  "aws_instance.web" -> "aws_subnet.public";
+  "aws_security_group.web_sg" -> "aws_vpc.main";
+  "aws_subnet.public" -> "aws_vpc.main";
+}
